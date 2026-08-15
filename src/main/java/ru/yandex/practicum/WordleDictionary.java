@@ -1,4 +1,4 @@
-package ru.yandex.practicum;
+package test;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +16,6 @@ public class WordleDictionary {
     private final Random randomGenerator;
 
     public WordleDictionary(final List<String> words) {
-
         if (words == null || words.isEmpty()) {
             throw new IllegalArgumentException("Словарь пуст.");
         }
@@ -47,7 +46,6 @@ public class WordleDictionary {
     }
 
     public String normalizeWord(final String word) {
-
         if (word == null) {
             return null;
         }
@@ -63,13 +61,11 @@ public class WordleDictionary {
     }
 
     public boolean containsOnlyRussianLetters(final String word) {
-
         if (word == null || word.isEmpty()) {
             return false;
         }
 
         for (int position = 0; position < word.length(); position++) {
-
             char currentCharacter = word.charAt(position);
 
             if (currentCharacter < 'а' || currentCharacter > 'я') {
@@ -84,14 +80,14 @@ public class WordleDictionary {
             final List<String> guesses,
             final List<String> hints
     ) {
-
         List<String> matchingWords = new ArrayList<>();
 
         for (String candidateWord : words) {
-
             boolean matchesAllHints = true;
 
-            for (int guessIndex = 0; guessIndex < guesses.size(); guessIndex++) {
+            for (int guessIndex = 0;
+                 guessIndex < guesses.size();
+                 guessIndex++) {
 
                 String guessedWord = guesses.get(guessIndex);
                 String expectedHint = hints.get(guessIndex);
@@ -119,14 +115,12 @@ public class WordleDictionary {
             final String correctWord,
             final String guessedWord
     ) {
-
         char[] hintResult = new char[WORD_LENGTH];
 
         boolean[] usedAnswerPositions =
                 new boolean[WORD_LENGTH];
 
         for (int position = 0; position < WORD_LENGTH; position++) {
-
             if (guessedWord.charAt(position)
                     == correctWord.charAt(position)) {
 

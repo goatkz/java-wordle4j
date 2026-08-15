@@ -1,4 +1,4 @@
-package ru.yandex.practicum;
+package test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -41,7 +41,6 @@ public class WordleDictionaryLoader {
     }
 
     private String normalizeWord(final String word) {
-
         return word
                 .trim()
                 .toLowerCase()
@@ -49,7 +48,6 @@ public class WordleDictionaryLoader {
     }
 
     private boolean isSuitableWord(final String word) {
-
         if (word.length() != REQUIRED_WORD_LENGTH) {
             return false;
         }
@@ -60,7 +58,6 @@ public class WordleDictionaryLoader {
 
             if (currentCharacter < 'а'
                     || currentCharacter > 'я') {
-
                 return false;
             }
         }
