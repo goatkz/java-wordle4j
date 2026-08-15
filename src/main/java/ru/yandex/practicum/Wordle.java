@@ -1,33 +1,33 @@
-import dictionary.WordleDictionary;
-import dictionary.WordleDictionaryLoader;
-import exceptions.DictionaryLoadException;
-import exceptions.EmptyDictionaryException;
-import exceptions.InvalidWordException;
-import exceptions.WordNotFoundInDictionary;
-import game.WordleGame;
+package test;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Wordle {
 
-    private static final String DICTIONARY_FILE = "words.txt";
+    private static final String DICTIONARY_FILE = "words_ru.txt";
     private static final String LOG_FILE = "wordle.log";
 
     public static void main(final String[] args) {
 
-        try (PrintWriter log = new PrintWriter(LOG_FILE);
-             Scanner scanner = new Scanner(System.in)) {
+        try (
+                PrintWriter logWriter = new PrintWriter(LOG_FILE);
+                Scanner inputScanner = new Scanner(System.in)
+        ) {
 
-            runGame(scanner, log);
+            runGame(inputScanner, logWriter);
 
         } catch (Exception exception) {
 
             exception.printStackTrace();
 
-            try (PrintWriter log = new PrintWriter(LOG_FILE)) {
-                exception.printStackTrace(log);
+            try (PrintWriter errorLogWriter =
+                         new PrintWriter(LOG_FILE)) {
+
+                exception.printStackTrace(errorLogWriter);
+
             } catch (FileNotFoundException logException) {
                 logException.printStackTrace();
             }
@@ -35,48 +35,50 @@ public class Wordle {
     }
 
     private static void runGame(
-            final Scanner scanner,
-            final PrintWriter log
-    ) throws Exception {
+            final Scanner inputScanner,
+            final PrintWriter logWriter
+    ) throws IOException {
 
-        WordleDictionaryLoader loader =
+        WordleDictionaryLoader dictionaryLoader =
                 new WordleDictionaryLoader();
 
         WordleDictionary dictionary =
-                loader.loadDictionary(DICTIONARY_FILE);
+                dictionaryLoader.loadDictionary(DICTIONARY_FILE);
 
-        log.println(
+        logWriter.println(
                 "Словарь загружен: "
                         + dictionary.getWordCount()
                         + " слов."
         );
 
-        WordleGame game =
-                new WordleGame(dictionary);
+        WordleGame game = new WordleGame(dictionary);
 
-        log.println("Игра началась.");
+        logWriter.println("Игра началась.");
 
         while (!game.isGameOver()) {
 
             System.out.print("> ");
 
-            String input = scanner.nextLine();
+            String userInput = inputScanner.nextLine();
 
-            if (input.trim().isEmpty()) {
+            if (userInput.trim().isEmpty()) {
 
-                String hint = game.getHint();
+                String suggestedWord = game.getHint();
 
-                if (hint == null) {
+                if (suggestedWord == null) {
+
                     System.out.println(
                             "Подходящих подсказок больше нет."
                     );
+
                 } else {
+
                     System.out.println(
-                            "Подсказка: " + hint
+                            "Подсказка: " + suggestedWord
                     );
 
-                    log.println(
-                            "Подсказка: " + hint
+                    logWriter.println(
+                            "Подсказка: " + suggestedWord
                     );
                 }
 
@@ -85,38 +87,26 @@ public class Wordle {
 
             try {
 
-                String hint =
-                        game.makeGuess(input);
+                String hint = game.makeGuess(userInput);
 
                 System.out.println(hint);
 
-                log.println(
+                logWriter.println(
                         "Слово: "
-                                + input
+                                + userInput
                                 + ", результат: "
                                 + hint
                 );
 
-            } catch (InvalidWordException exception) {
+            } catch (IllegalArgumentException exception) {
 
                 System.out.println(
                         exception.getMessage()
                 );
 
-                log.println(
+                logWriter.println(
                         "Ошибка ввода: "
                                 + exception.getMessage()
-                );
-
-            } catch (WordNotFoundInDictionary exception) {
-
-                System.out.println(
-                        exception.getMessage()
-                );
-
-                log.println(
-                        "Слово отсутствует в словаре: "
-                                + input
                 );
             }
         }
@@ -127,7 +117,7 @@ public class Wordle {
                     "Вы угадали слово!"
             );
 
-            log.println("Победа.");
+            logWriter.println("Победа.");
 
         } else {
 
@@ -135,7 +125,7 @@ public class Wordle {
                     "Попытки закончились."
             );
 
-            log.println("Поражение.");
+            logWriter.println("Поражение.");
         }
 
         System.out.println(
@@ -143,7 +133,7 @@ public class Wordle {
                         + game.getAnswer()
         );
 
-        log.println(
+        logWriter.println(
                 "Ответ: "
                         + game.getAnswer()
         );

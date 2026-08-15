@@ -1,40 +1,25 @@
-<<<<<<< HEAD
 ### IntelliJ IDEA ###
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-.kotlin
-=======
+.idea/
+*.iml
+*.iws
+*.ipr
+
+### Java ###
+*.class
+
+### Build ###
 out/
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
-*.iml
-*.ipr
->>>>>>> origin/main
+build/
 
 ### Eclipse ###
-.apt_generated
+.apt_generated/
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
-.sts4-cache
-<<<<<<< HEAD
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-=======
->>>>>>> origin/main
+.sts4-cache/
 
 ### NetBeans ###
 /nbproject/private/
@@ -42,15 +27,12 @@ bin/
 /dist/
 /nbdist/
 /.nb-gradle/
-<<<<<<< HEAD
-=======
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
->>>>>>> origin/main
 
 ### VS Code ###
 .vscode/
+
+### Kotlin ###
+.kotlin/
 
 ### Mac OS ###
 .DS_Store
